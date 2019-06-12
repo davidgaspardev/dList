@@ -1,0 +1,13 @@
+{
+    "schema": [
+        {
+            "name": "Item",
+            "primaryKey": "id",
+            "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "price": { "type": "double" }
+            }
+        }
+    ]
+}
