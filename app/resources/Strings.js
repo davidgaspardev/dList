@@ -16,13 +16,17 @@ const isPortugueseLenguage = deviceLocale.includes('pt');
 
 /**
  * Strings Object
+ * 
+ * @enum {string}
+ * @const
  */
 const Strings = Object.freeze({
-    title:        isPortugueseLenguage ? "Adicionar item à lista" : "Add item to list",
-    nameField:    isPortugueseLenguage ? "Insira o nome do item" : "Enter the item name",
-    priceField:   isPortugueseLenguage ? "Insira o preço do item" : "Enter the item price",
-    cancelButton: isPortugueseLenguage ? "Cancelar" : "Cancel",
-    saveButton:   isPortugueseLenguage ? "Salvar" : "Save"
+    textTitle:      isPortugueseLenguage ? "Adicionar item à lista" : "Add item to list",
+    textInputName:  isPortugueseLenguage ? "Insira o nome do item" : "Enter the item name",
+    textInputPrice: isPortugueseLenguage ? "Insira o preço do item" : "Enter the item price",
+    textQuantity:   isPortugueseLenguage ? "Quantidade: " : "Quantity: ",
+    textCancel:     isPortugueseLenguage ? "Cancelar" : "Cancel",
+    textSave:       isPortugueseLenguage ? "Salvar" : "Save"
 });
 
 export { Strings };

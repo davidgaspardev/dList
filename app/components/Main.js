@@ -4,10 +4,10 @@
  * @author David Gaspar
  */
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, FlatList, View, Text } from 'react-native';
 import Header from './Header';
-import { AddItem } from './Item';
-import { read } from '../database/realm';
+import { AddItem, Item } from './Item';
+import { getAllItems } from '../database/item';
 
 /**
  * Stateful Component
@@ -17,35 +17,58 @@ export default class Main extends Component {
     constructor(props) {
         super(props);
 
+        // Init state
         this.state = {
-            visibleAddItem: false
+            visibleAddItem: false,
+            items: []
         }
 
-        console.log('DATA: ', read('Item'));
-
+        // Bind context
         this.showAddItem = this.showAddItem.bind(this);
         this.closeAddItem = this.closeAddItem.bind(this);
-
     }
 
     render() {
+        // Destructuring assignment
+        const { showAddItem, closeAddItem, renderItem, keyExtractor } = this;
+        const { visibleAddItem, items } = this.state;
+        const { container } = style;
+
+        // View
         return (
-            <View style={style.container}>
-                <Header eventShowAddItem={this.showAddItem} />
-                { this.state.visibleAddItem && <AddItem eventCloseAddItem={this.closeAddItem} /> }
+            <View style={container}>
+                <Header eventShowAddItem={showAddItem} />
+                { items.length > 0 && <FlatList data={items} renderItem={renderItem} keyExtractor={keyExtractor} /> }
+                { visibleAddItem && <AddItem eventCloseAddItem={closeAddItem} /> }
             </View>
         );
     }
 
+    keyExtractor(item) {
+        return item.id;
+    }    
+
+    renderItem({item}) {
+        return <Item { ...item } />
+    }
+
+    componentDidMount() {
+        this.setState({ items: getAllItems() });
+    }
+
     showAddItem() {
+        // Layout visible
         this.setState({
             visibleAddItem: true
         });
     }
 
     closeAddItem() {
+        // Layout invisible
         this.setState({
-            visibleAddItem: false
+            visibleAddItem: false,
+            // Items update
+            items: getAllItems()
         });
     }
 }

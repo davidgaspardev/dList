@@ -10,8 +10,8 @@ import Colors from '../resources/Colors';
 /**
  * Stateless Component
  * 
- * @param { object } props
- * @return JSX
+ * @param {Object} props
+ * @returns {Object}
  */
 export default function Header(props) {
     const { eventShowAddItem } = props;
@@ -30,7 +30,7 @@ export default function Header(props) {
 /**
  * Stateless Component
  * 
- * @return JSX
+ * @returns {Objects}
  */ 
 function Title() {
     const { containerTitle, title } = style;

@@ -1,3 +1,15 @@
+/**
+ * Colors
+ * 
+ * @author David Gaspar
+ */
+
+/**
+ * Colors Obejct
+ * 
+ * @enum {string}
+ * @const
+ */
 const Colors = Object.freeze({
     GREEN_FIRST:  '#148f77',
     GREEN_SECOND: '#17a589',
