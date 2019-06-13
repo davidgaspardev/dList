@@ -10,19 +10,21 @@ import Colors from '../resources/Colors';
 /**
  * Stateless Component
  * 
+ * @description Header
  * @param {Object} props
  * @returns {Object}
  */
 export default function Header(props) {
-    const { eventShowAddItem } = props;
-    const { container, addItem } = style;
+    // Destructuring assignment
+    const { container } = style;
 
+    // View
     return (
-        <View style={container}>
-            <Title />
-            <TouchableOpacity onPress={eventShowAddItem}>
-                <Text style={addItem}>+</Text>
-            </TouchableOpacity>
+        <View>
+            <View style={container}>
+                <Title />
+            </View>
+            <Line />
         </View>
     );
 }
@@ -30,18 +32,43 @@ export default function Header(props) {
 /**
  * Stateless Component
  * 
+ * @description Colorful title.
  * @returns {Objects}
  */ 
 function Title() {
+    // Destructuring assignment
     const { containerTitle, title } = style;
 
+    // View JSX
     return (
         <View style={containerTitle}>
-            <Text style={[ title ,{ color: Colors.GREEN_FIRST  }]}>d</Text>
-            <Text style={[ title ,{ color: Colors.GREEN_SECOND }]}>L</Text>
-            <Text style={[ title ,{ color: Colors.GREEN_THIRD  }]}>i</Text>
-            <Text style={[ title ,{ color: Colors.GREEN_FOURTH }]}>s</Text>
-            <Text style={[ title ,{ color: Colors.GREEN_FIVETH }]}>t</Text>
+            <Text style={[ title ,{ color: Colors.RED    }]}>d</Text>
+            <Text style={[ title ,{ color: Colors.ORANGE }]}>L</Text>
+            <Text style={[ title ,{ color: Colors.YELLOW }]}>i</Text>
+            <Text style={[ title ,{ color: Colors.GREEN  }]}>s</Text>
+            <Text style={[ title ,{ color: Colors.BLACK  }]}>t</Text>
+        </View>
+    );
+}
+
+/**
+ * Stateless Component
+ * 
+ * @description Line below the header.
+ * @returns {Object}
+ */
+function Line() {
+    // Destructuring assignment
+    const { containerLine } = style;
+
+    // View
+    return (
+        <View style={containerLine}>
+            <View style={{ flex: 1, backgroundColor: Colors.RED    }}/>
+            <View style={{ flex: 1, backgroundColor: Colors.ORANGE }}/>
+            <View style={{ flex: 1, backgroundColor: Colors.YELLOW }}/>
+            <View style={{ flex: 1, backgroundColor: Colors.GREEN  }}/>
+            <View style={{ flex: 1, backgroundColor: Colors.BLACK  }}/>
         </View>
     );
 }
@@ -51,29 +78,22 @@ function Title() {
  */
 const style = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
-        flexDirection: 'row',
         width: '100%',
         height: 48,
-        //elevation: 5, 
-        alignItems: 'center',
-        borderBottomWidth: 2,
-        borderBottomColor: Colors.GREEN_SIXTH
+        justifyContent: 'center'
+
     },
     containerTitle: {
-        paddingLeft: 20,
         flexDirection: 'row',
-        flex: 1
+        paddingLeft: 10
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold'
     },
-    addItem: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: Colors.GREEN_THIRD,
-        padding: 10,
-        marginRight: 10
+    containerLine: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 3
     }
 });

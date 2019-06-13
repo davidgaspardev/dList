@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
 import Header from './Header';
-import { AddItem, Item } from './Item';
+import { AddItem, Item, AddItemButton } from './Item';
 import { getAllItems } from '../database/item';
 
 /**
@@ -39,6 +39,7 @@ export default class Main extends Component {
             <View style={container}>
                 <Header eventShowAddItem={showAddItem} />
                 { items.length > 0 && <FlatList data={items} renderItem={renderItem} keyExtractor={keyExtractor} /> }
+                <AddItemButton eventShowAddItem={showAddItem} />
                 { visibleAddItem && <AddItem eventCloseAddItem={closeAddItem} /> }
             </View>
         );

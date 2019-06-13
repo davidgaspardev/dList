@@ -4,14 +4,16 @@
  * @author David Gaspar
  */
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, StyleSheet, Dimensions, TextInput, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Dimensions, Animated, TextInput, Image, View, Text } from 'react-native';
 import { Strings } from '../resources/Strings';
 import { createItem } from '../database/item';
+import Colors from '../resources/Colors';
 
 /**
  * Stateless Component 
  * 
- * @param {Obejct} props 
+ * @description Layout to add item.
+ * @param {Obejct} props
  * @returns {Object}
  */
 export class AddItem extends PureComponent {
@@ -21,15 +23,19 @@ export class AddItem extends PureComponent {
 
 		// Init state
 		this.state = {
+			showAnimation: true,
 			name: null,
 			price: null,
 			quantity: 1
 		}
 
+		this.showAnimation = new Animated.Value(0);
+
 		// Bind context
 		this.moreQuantity = this.moreQuantity.bind(this);
 		this.lessQuantity = this.lessQuantity.bind(this);
 		this.saveItem = this.saveItem.bind(this);
+		this.cancelItem = this.cancelItem.bind(this);
 	}
 
 	render() {
@@ -38,9 +44,9 @@ export class AddItem extends PureComponent {
 		const { eventCloseAddItem } = this.props;
 		const { addItem, addItemBox, addItemInput, addItemControlBar, addItemControl, addItemControlCancel, addItemControlSave } = style;
 
-		// View
+		// View JSX
 		return (
-			<View style={addItem} >
+			<Animated.View style={[ addItem, { opacity: this.showAnimation }]} >
 				<View style={addItemBox} >
 
 					<Text>{Strings.textTitle}</Text>
@@ -88,7 +94,7 @@ export class AddItem extends PureComponent {
 
 						<TouchableOpacity 
 							style={[ addItemControl, addItemControlCancel ]} 
-							onPress={eventCloseAddItem} >
+							onPress={this.cancelItem} >
 							<Text style={{color: 'white'}}>{Strings.textCancel.toUpperCase()}</Text>
 						</TouchableOpacity>
 
@@ -101,8 +107,21 @@ export class AddItem extends PureComponent {
 					</View>
 
 				</View>
-			</View>
+			</Animated.View>
 		);
+	}
+
+	componentDidMount() {
+		// Destructuring assignment
+		const { showAnimation } = this.state;
+		if(showAnimation) {
+			this.state.showAnimation = !showAnimation;
+			Animated.timing(this.showAnimation, {
+				toValue: 1,
+				duration: 500,
+				useNativeDriver: true,      
+			  }).start();
+		}
 	}
 
 	moreQuantity() {
@@ -143,16 +162,38 @@ export class AddItem extends PureComponent {
 			id: primaryKey()
 		}
 
+		
+
 		// Save item in database
 		createItem(item).then(() => {
 			// Item saved
-			eventCloseAddItem();
+			Animated.timing(this.showAnimation, {
+				toValue: 0,
+				duration: 500,
+				useNativeDriver: true
+			}).start(() => {
+				eventCloseAddItem();
+			});
 		}).catch((error) => {
 			// Item don't saved
 			console.log(error);
 			eventCloseAddItem();
 		});
 
+
+	}
+
+	cancelItem() {
+		// Destructuring assignment
+		const { eventCloseAddItem } = this.props;
+
+		Animated.timing(this.showAnimation, {
+			toValue: 0,
+			duration: 500,
+			useNativeDriver: true
+		}).start(() => {
+			eventCloseAddItem();
+		});
 
 	}
 }
@@ -179,6 +220,24 @@ export function Item(props) {
 }
 
 /**
+ * Stateless Component
+ * 
+ * @param {Object} props 
+ */
+export function AddItemButton(props) {
+	// Destructuring assignment
+	const { eventShowAddItem } = props;
+	const { addItemButton, addItemButtonImage } = style;
+
+	// View
+	return (
+		<TouchableOpacity style={addItemButton} onPress={eventShowAddItem}>
+			<Image style={addItemButtonImage} source={require('../resources/images/additem.png')} />
+		</TouchableOpacity>
+	);
+}
+
+/**
  * Style Object
  */
 const style = StyleSheet.create({
@@ -191,8 +250,7 @@ const style = StyleSheet.create({
 		left: 0,
 		backgroundColor: 'rgba(  0,  0,  0, .5)',
 		alignItems: 'center',
-		justifyContent: 'center',
-		//transform: [{ 'translate': [0,0,1] }]
+		justifyContent: 'center'
 	},
 	addItemBox: {
 		width: (Dimensions.get('window').width - 70),
@@ -225,17 +283,28 @@ const style = StyleSheet.create({
 	addItemControlCancel: {
 		borderBottomLeftRadius: 10,
 		marginLeft: -10,
-		backgroundColor: 'red'
+		backgroundColor: Colors.RED
 	},
 	addItemControlSave: {
 		borderBottomRightRadius: 10,
 		marginRight: -10,
-		backgroundColor: 'green'
+		backgroundColor: Colors.GREEN
 	},
 
 	// Item
 	item: {
 		width: '100%',
 		height: 65
+	},
+
+	// Add Item Button
+	addItemButton: {
+		position: 'absolute',
+		bottom: 10,
+		right: 10
+	},
+	addItemButtonImage: {
+		width: 50,
+		height: 50
 	}
 });
