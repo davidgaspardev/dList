@@ -4,7 +4,7 @@
  * @author David Gaspar
  */
 import React from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { StatusBar, StyleSheet, View, Text } from 'react-native';
 import Colors from '../resources/Colors';
 
 /**
@@ -21,6 +21,7 @@ export default function Header(props) {
     // View
     return (
         <View>
+            <StatusBar barStyle="dark-content" hidden={false} backgroundColor="white" translucent={true} />
             <View style={container}>
                 <Title />
             </View>
@@ -77,23 +78,31 @@ function Line() {
  * Style Obejct
  */
 const style = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: 48,
-        justifyContent: 'center'
 
+    // Header Component
+    container: {
+        marginTop: StatusBar.currentHeight,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        width: '100%',
+        height: 48
     },
+
+    // Title Component
     containerTitle: {
         flexDirection: 'row',
         paddingLeft: 10
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 24
     },
+
+    // Line Component
     containerLine: {
         flexDirection: 'row',
         width: '100%',
         height: 3
     }
+
 });

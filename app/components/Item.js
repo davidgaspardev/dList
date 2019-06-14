@@ -4,7 +4,7 @@
  * @author David Gaspar
  */
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, StyleSheet, Dimensions, Animated, TextInput, Image, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Dimensions, Animated, TextInput, Image, Picker, View, Text } from 'react-native';
 import { Strings } from '../resources/Strings';
 import { createItem } from '../database/item';
 import Colors from '../resources/Colors';
@@ -26,7 +26,8 @@ export class AddItem extends PureComponent {
 			showAnimation: true,
 			name: null,
 			price: null,
-			quantity: 1
+			quantity: 1,
+			unit: "u"
 		}
 
 		this.showAnimation = new Animated.Value(0);
@@ -41,8 +42,7 @@ export class AddItem extends PureComponent {
 	render() {
 		// Destructuring assignment
 		const { moreQuantity, lessQuantity } = this;
-		const { eventCloseAddItem } = this.props;
-		const { addItem, addItemBox, addItemInput, addItemControlBar, addItemControl, addItemControlCancel, addItemControlSave } = style;
+		const { addItem, addItemBox, addItemTextInput, addItemControlBar, addItemControl, addItemControlCancel, addItemControlSave } = style;
 
 		// View JSX
 		return (
@@ -52,7 +52,7 @@ export class AddItem extends PureComponent {
 					<Text>{Strings.textTitle}</Text>
 				
 					<TextInput 
-						style={addItemInput} 
+						style={addItemTextInput} 
 						onChangeText={name => this.setState({name})} 
 						value={this.state.name} 
 						placeholder={Strings.textInputName}
@@ -60,7 +60,7 @@ export class AddItem extends PureComponent {
 						maxLength={40} />
 
 					<TextInput 
-						style={addItemInput} 
+						style={addItemTextInput} 
 						onChangeText={price => this.setState({price})} 
 						value={this.state.price} 
 						placeholder={Strings.textInputPrice}
@@ -87,6 +87,17 @@ export class AddItem extends PureComponent {
 							style={addItemControl}>
 							<Text>+</Text>
 						</TouchableOpacity>
+
+						<Picker 
+							style={{ flex: 1 }}
+							selectedValue={this.state.unit}
+							onValueChange={item => this.setState({ unit: item })}>
+
+							<Picker.Item label="unidade" value="u" />
+							<Picker.Item label="grama" value="g" />
+							<Picker.Item label="litro" value="l" />
+
+						</Picker>
 
 					</View>
 
@@ -204,18 +215,44 @@ export class AddItem extends PureComponent {
  * @param {Obejct} props
  * @return JSX
  */
-export function Item(props) {
-	// Destructuring assignment
-	const { name, price } = props;
-	const { item } = style;
+export class Item extends PureComponent {
 
-	// View
-	return (
-		<View style={item} >
-			<Text>{name}</Text>
-			<Text>{price}</Text>
-		</View>
-	);
+	constructor(props) {
+		super(props);
+
+		// Init state
+		this.state = {
+			animation: new Animated.Value(0)
+		}
+
+	}
+	
+	render() {
+		// Destructuring assignment
+		const { name, price, quantity } = this.props;
+		const { animation } = this.state;
+		const { item } = style;
+
+		// View
+		return (
+			<Animated.View style={[ item,{ width: animation }]} >
+				<View>
+				    <Text>{name}</Text>
+				    <Text>{`R$: ${price}`}</Text>
+				</View>
+			</Animated.View>
+		);
+	}
+
+	componentDidMount() {
+		// Destructuring assignment
+		const { animation } = this.state;
+
+		Animated.spring(animation, {
+			toValue: Dimensions.get('window').width,
+			//useNativeDriver: true
+		}).start();
+	}
 
 }
 
@@ -260,7 +297,7 @@ const style = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: 'white'
 	},
-	addItemInput: {
+	addItemTextInput: {
 		borderBottomWidth: 2,
 		borderBottomColor: '#989898'
 	},
@@ -290,13 +327,15 @@ const style = StyleSheet.create({
 		marginRight: -10,
 		backgroundColor: Colors.GREEN
 	},
-
 	// Item
 	item: {
+		flexDirection: 'row',
+		padding: 10,
 		width: '100%',
-		height: 65
+		height: 65,
+		borderBottomWidth: 1,
+		borderBottomColor: 'lightgray'
 	},
-
 	// Add Item Button
 	addItemButton: {
 		position: 'absolute',
