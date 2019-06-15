@@ -4,7 +4,7 @@
  * @author David Gaspar
  */
 import React from 'react';
-import { StatusBar, StyleSheet, View, Text } from 'react-native';
+import { StatusBar, StyleSheet, Image, View, Text } from 'react-native';
 import Colors from '../resources/Colors';
 
 /**
@@ -24,6 +24,7 @@ export default function Header(props) {
             <StatusBar barStyle="dark-content" hidden={false} backgroundColor="white" translucent={true} />
             <View style={container}>
                 <Title />
+                <ActionSearch />
             </View>
             <Line />
         </View>
@@ -49,6 +50,22 @@ function Title() {
             <Text style={[ title ,{ color: Colors.GREEN  }]}>s</Text>
             <Text style={[ title ,{ color: Colors.BLACK  }]}>t</Text>
         </View>
+    );
+}
+
+/**
+ * Statless Component
+ * 
+ * @description Open menu
+ * @returns {Object}
+ */
+function ActionSearch() {
+    // Destrcuturing assignment
+    const { actionSearch } = style;
+
+    // View JSX
+    return (
+        <Image style={actionSearch} source={require('../resources/images/action_search.png')} />
     );
 }
 
@@ -81,21 +98,29 @@ const style = StyleSheet.create({
 
     // Header Component
     container: {
+        flexDirection: 'row',
         marginTop: StatusBar.currentHeight,
         backgroundColor: 'white',
-        justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
         height: 48
     },
 
     // Title Component
     containerTitle: {
+        flex: 1,
         flexDirection: 'row',
         paddingLeft: 10
     },
     title: {
         fontWeight: 'bold',
         fontSize: 24
+    },
+
+    actionSearch: {
+        width: 30,
+        height: 30,
+        marginRight: 10
     },
 
     // Line Component

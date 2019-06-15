@@ -21,12 +21,20 @@ const isPortugueseLenguage = deviceLocale.includes('pt');
  * @const
  */
 const Strings = Object.freeze({
-    textTitle:      isPortugueseLenguage ? "Adicionar item à lista" : "Add item to list",
-    textInputName:  isPortugueseLenguage ? "Insira o nome do item" : "Enter the item name",
-    textInputPrice: isPortugueseLenguage ? "Insira o preço do item" : "Enter the item price",
-    textQuantity:   isPortugueseLenguage ? "Quantidade: " : "Quantity: ",
-    textCancel:     isPortugueseLenguage ? "Cancelar" : "Cancel",
-    textSave:       isPortugueseLenguage ? "Salvar" : "Save"
+    textTitle: isPortugueseLenguage ? "Adicionar item à lista" : "Add item to list",
+    textInputName: isPortugueseLenguage ? "Nome do item" : "Enter the item name",
+    textInputPrice: isPortugueseLenguage ? "Preço do item (opcional)" : "Enter the item price (optional)",
+    textQuantity: isPortugueseLenguage ? "quantidade: " : "quantity",
+    pickerItemUnit: isPortugueseLenguage ? "unidade" : "unit",
+    pickerItemKg: isPortugueseLenguage ? "kilo grama" : "kilo gram",
+    pickerItemLiter: isPortugueseLenguage ? "litro" : "liter",
+    textCategory: isPortugueseLenguage ? "categoria" : "category",
+    pickerItemOthers: isPortugueseLenguage ? "outros" : "others",
+    pickeritemMeat: isPortugueseLenguage ? "carne" : "meat",
+    pickerItemVegetables: isPortugueseLenguage ? "vegetais" : "vegetables",
+    pickerItemFruits: isPortugueseLenguage ? "frutas" : "fruits",
+    textCancel: isPortugueseLenguage ? "Cancelar" : "Cancel",
+    textSave: isPortugueseLenguage ? "Salvar" : "Save"
 });
 
 export { Strings };

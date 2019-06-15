@@ -28,6 +28,10 @@ export default class Main extends Component {
         this.closeAddItem = this.closeAddItem.bind(this);
     }
 
+    distributingItems(list) {
+
+    }
+
     render() {
         // Destructuring assignment
         const { showAddItem, closeAddItem, renderItem, keyExtractor } = this;
@@ -47,7 +51,11 @@ export default class Main extends Component {
 
     keyExtractor(item) {
         return item.id;
-    }    
+    }
+
+    //renderSectionHeader({section: {title}}) {
+        
+    //}
 
     renderItem({item}) {
         return <Item { ...item } />

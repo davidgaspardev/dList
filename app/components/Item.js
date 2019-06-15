@@ -4,7 +4,7 @@
  * @author David Gaspar
  */
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, StyleSheet, Dimensions, Animated, TextInput, Image, Picker, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Dimensions, StatusBar, Animated, TextInput, Image, Picker, View, Text } from 'react-native';
 import { Strings } from '../resources/Strings';
 import { createItem } from '../database/item';
 import Colors from '../resources/Colors';
@@ -27,7 +27,8 @@ export class AddItem extends PureComponent {
 			name: null,
 			price: null,
 			quantity: 1,
-			unit: "u"
+			unit: Strings.pickerItemUnit,
+			category: Strings.pickerItemOthers
 		}
 
 		this.showAnimation = new Animated.Value(0);
@@ -35,6 +36,7 @@ export class AddItem extends PureComponent {
 		// Bind context
 		this.moreQuantity = this.moreQuantity.bind(this);
 		this.lessQuantity = this.lessQuantity.bind(this);
+		this.updateUnit = this.updateUnit.bind(this);
 		this.saveItem = this.saveItem.bind(this);
 		this.cancelItem = this.cancelItem.bind(this);
 	}
@@ -42,35 +44,48 @@ export class AddItem extends PureComponent {
 	render() {
 		// Destructuring assignment
 		const { moreQuantity, lessQuantity } = this;
-		const { addItem, addItemBox, addItemTextInput, addItemControlBar, addItemControl, addItemControlCancel, addItemControlSave } = style;
+		const { addItem, addItemBox, addItemTitle, addItemTextInputIcon, addItemTextInput, addItemControlBar, addItemControl, addItemControlCancel, addItemControlSave } = style;
 
 		// View JSX
 		return (
 			<Animated.View style={[ addItem, { opacity: this.showAnimation }]} >
+				<StatusBar barStyle="light-content" backgroundColor="transparent" translucent={true} hidden={false} />
 				<View style={addItemBox} >
 
-					<Text>{Strings.textTitle}</Text>
+					<Text style={addItemTitle}>{Strings.textTitle}</Text>
 				
-					<TextInput 
-						style={addItemTextInput} 
-						onChangeText={name => this.setState({name})} 
-						value={this.state.name} 
-						placeholder={Strings.textInputName}
-						numberOfLines={1}
-						maxLength={40} />
+					<View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
 
-					<TextInput 
-						style={addItemTextInput} 
-						onChangeText={price => this.setState({price})} 
-						value={this.state.price} 
-						placeholder={Strings.textInputPrice}
-						numberOfLines={1}
-						maxLength={6}
-						keyboardType="numeric" />
+						<Image style={addItemTextInputIcon} source={require('../resources/images/textinput_name.png')} />
 
-					<Text>{Strings.textQuantity}</Text>
+						<TextInput 
+							style={addItemTextInput} 
+							onChangeText={name => this.setState({name})} 
+							value={this.state.name} 
+							placeholder={Strings.textInputName}
+							numberOfLines={1}
+							maxLength={40} />
 
-					<View style={addItemControlBar} >
+					</View>
+
+					<View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+
+						<Image style={addItemTextInputIcon} source={require('../resources/images/textinput_price.png')} />
+
+						<TextInput 
+							style={addItemTextInput} 
+							onChangeText={price => this.setState({price})} 
+							value={this.state.price} 
+							placeholder={Strings.textInputPrice}
+							numberOfLines={1}
+							maxLength={6}
+							keyboardType="numeric" />
+
+					</View>
+
+					<Text style={addItemTitle}>{Strings.textQuantity}</Text>
+
+					<View style={[ addItemControlBar,{ alignItems: 'center' }]} >
 
 						<TouchableOpacity 
 							onPress={lessQuantity}
@@ -88,14 +103,30 @@ export class AddItem extends PureComponent {
 							<Text>+</Text>
 						</TouchableOpacity>
 
+					</View>
+
+					<Picker 
+							selectedValue={this.state.unit}
+							onValueChange={this.updateUnit}>
+
+							<Picker.Item label={Strings.pickerItemUnit} value={Strings.pickerItemUnit} />
+							<Picker.Item label={Strings.pickerItemKg}   value={Strings.pickerItemKg} />
+							<Picker.Item label={Strings.pickerItemLiter} value={Strings.pickerItemLiter} />
+
+						</Picker>
+
+					<Text style={addItemTitle}>{Strings.textCategory}</Text>
+
+					<View style={[ addItemControlBar,{ alignItems: 'center' }]} >
+
 						<Picker 
 							style={{ flex: 1 }}
-							selectedValue={this.state.unit}
-							onValueChange={item => this.setState({ unit: item })}>
+							selectedValue={this.state.category}
+							onValueChange={category => this.setState({ category })}>
 
-							<Picker.Item label="unidade" value="u" />
-							<Picker.Item label="grama" value="g" />
-							<Picker.Item label="litro" value="l" />
+							<Picker.Item label={Strings.pickerItemOthers} value={Strings.pickerItemOthers} />
+							<Picker.Item label={Strings.pickeritemMeat} value={Strings.pickerItemMeat} />
+							<Picker.Item label={Strings.pickerItemVegetables} value={Strings.pickerItemVegetables} />
 
 						</Picker>
 
@@ -135,11 +166,22 @@ export class AddItem extends PureComponent {
 		}
 	}
 
+	updateUnit(unit) {
+		if(unit === Strings.pickerItemUnit) {
+			unit = { unit, quantity: Math.trunc(this.state.quantity) }
+		} else {
+			unit = { unit };
+		}
+
+		this.setState(unit);
+	}
+
 	moreQuantity() {
 		// Quantity++
 		this.setState(previousState => {
+			const more = previousState.unit === Strings.pickerItemUnit ? 1 : 0.25;
 			let nextState = {};
-			nextState.quantity = previousState.quantity + 1;
+			nextState.quantity = previousState.quantity + more;
 			return nextState;
 		});
 	}
@@ -147,8 +189,9 @@ export class AddItem extends PureComponent {
 	lessQuantity() {
 		// Quantity--
 		this.setState(previousState => {
+			const less = previousState.unit === Strings.pickerItemUnit ? 1 : 0.25;
 			let nextState = {};
-			if(previousState.quantity > 1) nextState.quantity = previousState.quantity - 1;
+			if(previousState.quantity > 1) nextState.quantity = previousState.quantity - less;
 			return nextState;
 		});
 	}
@@ -163,14 +206,16 @@ export class AddItem extends PureComponent {
 		// Destructuring assignment
 		const { primaryKey } = this;
 		const { eventCloseAddItem } = this.props;
-		const { name, price, quantity } = this.state;
+		const { name, price, quantity, unit, category } = this.state;
 
 		// Item to save
 		const item = {
+			id: primaryKey(),
 			name,
 			price: Number.parseInt(price),
 			quantity: Number.parseInt(quantity),
-			id: primaryKey()
+			unit,
+			category
 		}
 
 		
@@ -229,9 +274,9 @@ export class Item extends PureComponent {
 	
 	render() {
 		// Destructuring assignment
-		const { name, price, quantity } = this.props;
+		const { name, price, quantity, unit, category } = this.props;
 		const { animation } = this.state;
-		const { item } = style;
+		const { item, itemDetail } = style;
 
 		// View
 		return (
@@ -239,6 +284,10 @@ export class Item extends PureComponent {
 				<View>
 				    <Text>{name}</Text>
 				    <Text>{`R$: ${price}`}</Text>
+				</View>
+				<View style={itemDetail}>
+					<Text>{`${quantity} ${unit}`}</Text>
+					<Text>{category}</Text>
 				</View>
 			</Animated.View>
 		);
@@ -297,12 +346,24 @@ const style = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: 'white'
 	},
+	addItemTextInputIcon: {
+		width: 25,
+		height: 25,
+		marginTop: 5,
+		marginRight: 10,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
 	addItemTextInput: {
+		flex: 1,
+		height: 40,
 		borderBottomWidth: 2,
-		borderBottomColor: '#989898'
+		borderBottomColor: Colors.BLACK
 	},
 	addItemTitle: {
-		textAlign: 'center'
+	  textTransform: 'uppercase',
+		textAlign: 'center',
+		fontWeight: 'bold'
 	},
 	addItemControlBar: {
 		flexDirection: 'row',
@@ -329,7 +390,6 @@ const style = StyleSheet.create({
 	},
 	// Item
 	item: {
-		flexDirection: 'row',
 		padding: 10,
 		width: '100%',
 		height: 65,

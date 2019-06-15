@@ -8,7 +8,9 @@
                 "id":       { "type": "string" },
                 "name":     { "type": "string" },
                 "quantity": { "type": "int"    },
-                "price":    { "type": "double" }
+                "unit":     { "type": "string" },
+                "category": { "type": "string" },
+                "price":    { "type": "double", "optional": true }
             }
         }
     ]
