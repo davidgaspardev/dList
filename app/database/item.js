@@ -1,4 +1,4 @@
-import { write, read } from './realm';
+import { _create, _read } from './realm';
 
 /**
  * Asynchonous Function
@@ -6,7 +6,7 @@ import { write, read } from './realm';
  * @param {Object} item 
  */
 async function createItem(item) {
-    await write('Item', item);
+    await _create('Item', item);
 }
 
 /**
@@ -15,7 +15,7 @@ async function createItem(item) {
  * @returns {Object}
  */
 function getAllItems() {
-    let items = read('Item');
+    let items = _read('Item');
     items = formatItems(items);
     return items;
 }
@@ -28,7 +28,7 @@ function getAllItems() {
  */
 function searchItems(search) {
     // Search items
-    let items = read('Item', `name CONTAINS '${search}'`);
+    let items = _read('Item', `name CONTAINS '${search}'`);
     // Format items
     items = formatItems(items);
 
@@ -47,7 +47,10 @@ function formatItems(item) {
         itemsFormated[i] = {
             id: item[i].id,
             name: item[i].name,
-            price: item[i].price
+            price: item[i].price,
+            quantity: item[i].quantity,
+            unit: item[i].unit,
+            category: item[i].category
         }
     }
 
