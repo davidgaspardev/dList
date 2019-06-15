@@ -4,9 +4,10 @@
  * @author David Gaspar
  */
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, Text } from 'react-native';
+import { StyleSheet, FlatList, View } from 'react-native';
 import Header from './Header';
-import { AddItem, Item, AddItemButton } from './Item';
+import Item from './Item';
+import AddItem, { AddItemButton } from './AddItem';
 import { getAllItems } from '../database/item';
 
 /**

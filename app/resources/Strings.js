@@ -37,4 +37,4 @@ const Strings = Object.freeze({
     textSave: isPortugueseLenguage ? "Salvar" : "Save"
 });
 
-export { Strings };
+export default Strings;
