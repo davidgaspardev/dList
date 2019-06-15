@@ -276,7 +276,7 @@ export class Item extends PureComponent {
 		// Destructuring assignment
 		const { name, price, quantity, unit, category } = this.props;
 		const { animation } = this.state;
-		const { item, itemDetail } = style;
+		const { item, itemDetail, itemDetailText } = style;
 
 		// View
 		return (
@@ -286,8 +286,8 @@ export class Item extends PureComponent {
 				    <Text>{`R$: ${price}`}</Text>
 				</View>
 				<View style={itemDetail}>
-					<Text>{`${quantity} ${unit}`}</Text>
-					<Text>{category}</Text>
+					<Text style={[ itemDetailText,{ backgroundColor: Colors.BLACK }]}>{category}</Text>
+					<Text style={[ itemDetailText,{ backgroundColor: Colors.YELLOW }]}>{`${quantity} ${unit}`}</Text>
 				</View>
 			</Animated.View>
 		);
@@ -392,9 +392,18 @@ const style = StyleSheet.create({
 	item: {
 		padding: 10,
 		width: '100%',
-		height: 65,
 		borderBottomWidth: 1,
 		borderBottomColor: 'lightgray'
+	},
+	itemDetail: {
+		flexDirection: 'row-reverse'
+	},
+	itemDetailText: {
+		marginLeft: 10,
+		padding: 10,
+		color: 'white',
+		fontWeight: 'bold',
+		borderRadius: 20
 	},
 	// Add Item Button
 	addItemButton: {
