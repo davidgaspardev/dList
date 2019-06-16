@@ -30,7 +30,7 @@ const Strings = Object.freeze({
   pickerItemLiter: isPortugueseLenguage ? "litro" : "liter",
   textCategory: isPortugueseLenguage ? "categoria" : "category",
   pickerItemOthers: isPortugueseLenguage ? "outros" : "others",
-  pickeritemMeat: isPortugueseLenguage ? "carne" : "meat",
+  pickerItemMeat: isPortugueseLenguage ? "carne" : "meat",
   pickerItemVegetables: isPortugueseLenguage ? "vegetais" : "vegetables",
   pickerItemFruits: isPortugueseLenguage ? "frutas" : "fruits",
   textCancel: isPortugueseLenguage ? "Cancelar" : "Cancel",

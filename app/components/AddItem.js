@@ -98,7 +98,7 @@ export default class AddItem extends PureComponent {
             onChangeText={updatePrice}
             maxLength={6}
             placeholder={Strings.textInputPrice}
-            boardkeyType="numeric"
+            keyboardType="numeric"
           />
 
           <Text style={addItemTitle}>{Strings.textQuantity}</Text>
@@ -119,7 +119,7 @@ export default class AddItem extends PureComponent {
                 value={Strings.pickerItemOthers}
               />
               <Picker.Item
-                label={Strings.pickeritemMeat}
+                label={Strings.pickerItemMeat}
                 value={Strings.pickerItemMeat}
               />
               <Picker.Item
@@ -311,7 +311,9 @@ export default class AddItem extends PureComponent {
       quantity: Number.parseInt(quantity),
       unit,
       category
-    };
+	};
+	
+	console.log(item);
 
     // Save item in database
     createItem(item)
@@ -443,11 +445,11 @@ const style = StyleSheet.create({
   // Add Item Button
   addItemButton: {
     position: "absolute",
-    bottom: 10,
-    right: 10
+    bottom: 16,
+    right: 16,
   },
   addItemButtonImage: {
-    width: 50,
-    height: 50
+    width: 56, // Default size 56dp (floating action button - docmentation Material Design Google)
+    height: 56
   }
 });
