@@ -2,6 +2,7 @@
  * Header
  *
  * @author David Gaspar
+ * @flow
  */
 import React from 'react';
 import { StatusBar, StyleSheet, Image, View, Text } from 'react-native';
@@ -11,10 +12,9 @@ import Colors from '../resources/Colors';
  * Stateless Component
  * 
  * @description Header
- * @param {Object} props
- * @returns {Object}
+ * @returns {React$Element<any>}
  */
-export default function Header(props) {
+export default function Header(): React$Element<any> {
     // Destructuring assignment
     const { container } = style;
 
@@ -35,9 +35,9 @@ export default function Header(props) {
  * Stateless Component
  * 
  * @description Colorful title.
- * @returns {Objects}
+ * @returns {React$Element<any>}
  */ 
-function Title() {
+function Title(): React$Element<any> {
     // Destructuring assignment
     const { containerTitle, title } = style;
 
@@ -57,9 +57,9 @@ function Title() {
  * Statless Component
  * 
  * @description Open menu
- * @returns {Object}
+ * @returns {React$Element<any>}
  */
-function ActionSearch() {
+function ActionSearch(): React$Element<any> {
     // Destrcuturing assignment
     const { actionSearch } = style;
 
@@ -75,7 +75,7 @@ function ActionSearch() {
  * @description Line below the header.
  * @returns {Object}
  */
-function Line() {
+function Line(): React$Element<any> {
     // Destructuring assignment
     const { containerLine } = style;
 

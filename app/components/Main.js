@@ -2,8 +2,11 @@
  * Main 
  * 
  * @author David Gaspar
+ * @flow
  */
 import React, { Component } from 'react';
+import type { Main as Props, Item as ItemType } from './Properties';
+import type { Main as State } from './States';
 import { StyleSheet, FlatList, View } from 'react-native';
 import Header from './Header';
 import Item from './Item';
@@ -13,27 +16,23 @@ import { getAllItems } from '../database/item';
 /**
  * Stateful Component
  */
-export default class Main extends Component {
+export default class Main extends Component<Props, State> {
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         // Init state
         this.state = {
             visibleAddItem: false,
             items: []
-        }
+        };
 
         // Bind context
-        this.showAddItem = this.showAddItem.bind(this);
-        this.closeAddItem = this.closeAddItem.bind(this);
+        (this: any).showAddItem = this.showAddItem.bind(this);
+        (this: any).closeAddItem = this.closeAddItem.bind(this);
     }
 
-    distributingItems(list) {
-
-    }
-
-    render() {
+    render(): React$Element<any> {
         // Destructuring assignment
         const { showAddItem, closeAddItem, renderItem, keyExtractor } = this;
         const { visibleAddItem, items } = this.state;
@@ -50,7 +49,7 @@ export default class Main extends Component {
         );
     }
 
-    keyExtractor(item) {
+    keyExtractor(item: ItemType): string {
         return item.id;
     }
 
@@ -58,22 +57,22 @@ export default class Main extends Component {
         
     //}
 
-    renderItem({item}) {
-        return <Item { ...item } />
+    renderItem(info: { item: ItemType }): React$Element<any> {
+        return <Item { ...info.item } />
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.setState({ items: getAllItems() });
     }
 
-    showAddItem() {
+    showAddItem(): void {
         // Layout visible
         this.setState({
             visibleAddItem: true
         });
     }
 
-    closeAddItem() {
+    closeAddItem(): void {
         // Layout invisible
         this.setState({
             visibleAddItem: false,
@@ -86,7 +85,7 @@ export default class Main extends Component {
 /**
  * Style Object
  */
-const style = StyleSheet.create({
+const style: any = StyleSheet.create({
     container: {
         flexDirection: 'column',
         flex: 1

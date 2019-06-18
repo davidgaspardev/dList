@@ -2,8 +2,11 @@
  * Item 
  * 
  * @author David Gaspar
+ * @flow
  */
 import React, { PureComponent } from 'react';
+import type { Item as Props } from './Properties';
+import type { Item as State } from './States';
 import { TouchableOpacity, StyleSheet, Dimensions, StatusBar, Animated, TextInput, Image, Picker, View, Text } from 'react-native';
 import Colors from '../resources/Colors';
 
@@ -13,9 +16,9 @@ import Colors from '../resources/Colors';
  * @param {Obejct} props
  * @return JSX
  */
-export default class Item extends PureComponent {
+export default class Item extends PureComponent<Props, State> {
 
-	constructor(props) {
+	constructor(props: Props): void {
 		super(props);
 
 		// Init state
@@ -25,7 +28,7 @@ export default class Item extends PureComponent {
 
 	}
 	
-	render() {
+	render(): React$Element<any> {
 		// Destructuring assignment
 		const { name, price, quantity, unit, category } = this.props;
 		const { animation } = this.state;
@@ -40,13 +43,13 @@ export default class Item extends PureComponent {
 				</View>
 				<View style={itemDetail}>
 					<Text style={[ itemDetailText,{ backgroundColor: Colors.BLACK }]}>{category}</Text>
-					<Text style={[ itemDetailText,{ backgroundColor: Colors.YELLOW }]}>{`${quantity} ${unit}`}</Text>
+					<Text style={[ itemDetailText,{ backgroundColor: Colors.GREEN }]}>{`${quantity} ${unit}`}</Text>
 				</View>
 			</Animated.View>
 		);
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		// Destructuring assignment
 		const { animation } = this.state;
 
@@ -61,7 +64,7 @@ export default class Item extends PureComponent {
 /**
  * Style Object
  */
-const style = StyleSheet.create({
+const style: any = StyleSheet.create({
 	// Item
 	item: {
 		padding: 10,
@@ -77,6 +80,7 @@ const style = StyleSheet.create({
 		padding: 10,
 		color: 'white',
 		fontWeight: 'bold',
+		//textTransform: "uppercase",
 		borderRadius: 20
 	}
 });

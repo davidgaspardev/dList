@@ -7,7 +7,7 @@
             "properties": {
                 "id":       { "type": "string" },
                 "name":     { "type": "string" },
-                "quantity": { "type": "int"    },
+                "quantity": { "type": "double" },
                 "unit":     { "type": "string" },
                 "category": { "type": "string" },
                 "price":    { "type": "double", "optional": true }

@@ -2,11 +2,13 @@
  * Add Item
  *
  * @author David Gaspar
+ * @flow
  */
 import React, { PureComponent } from "react";
+import type { AddItem as Props } from './Properties';
+import type { AddItem as State } from './States';
 import {
   TouchableOpacity,
-  ScrollView,
   StyleSheet,
   Dimensions,
   StatusBar,
@@ -29,39 +31,46 @@ import Colors from "../resources/Colors";
  * @param {Obejct} props
  * @returns {Object}
  */
-export default class AddItem extends PureComponent {
-  constructor(props) {
+export default class AddItem extends PureComponent<Props, State> {
+  props = {};
+
+  constructor(props: Props): void {
     super(props);
 
     // Init state
     this.state = {
       showAnimation: true,
       targetAnimation: new Animated.Value(0),
-
       // Item properties
       name: String(),
-      price: String(),
+      price: Number(),
       quantity: Number(1),
       unit: Strings.pickerItemUnit,
       category: Strings.pickerItemOthers
     };
 
     // Bind context
-    this.TextInputCircle = this.TextInputCircle.bind(this); // View JSX
-    this.QuantityControl = this.QuantityControl.bind(this); // View JSX
-    this.updateName = this.updateName.bind(this);
-    this.updatePrice = this.updatePrice.bind(this);
-    this.moreQuantity = this.moreQuantity.bind(this);
-    this.lessQuantity = this.lessQuantity.bind(this);
-    this.updateUnit = this.updateUnit.bind(this);
-    this.saveItem = this.saveItem.bind(this);
-    this.cancelItem = this.cancelItem.bind(this);
+    (this: any).TextInputCircle = this.TextInputCircle.bind(this); // View JSX
+    (this: any).QuantityControl = this.QuantityControl.bind(this); // View JSX
+    (this: any).updateName = this.updateName.bind(this);
+    (this: any).updatePrice = this.updatePrice.bind(this);
+    (this: any).moreQuantity = this.moreQuantity.bind(this);
+    (this: any).lessQuantity = this.lessQuantity.bind(this);
+    (this: any).updateUnit = this.updateUnit.bind(this);
+    (this: any).saveItem = this.saveItem.bind(this);
+    (this: any).cancelItem = this.cancelItem.bind(this);
   }
 
-  render() {
+  render(): React$Element<any> {
     // Destructuring assignment
-    const { updateName, updatePrice, TextInputCircle, QuantityControl } = this;
-    const { name, price, targetAnimation } = this.state;
+    const {
+      updateName,
+      updatePrice,
+      updateCategory,
+      TextInputCircle,
+      QuantityControl
+    }: any = this;
+    const { name, price, targetAnimation }: any = this.state;
     const {
       addItem,
       addItemBox,
@@ -70,7 +79,7 @@ export default class AddItem extends PureComponent {
       addItemControl,
       addItemControlCancel,
       addItemControlSave
-    } = style;
+    }: any = style;
 
     // View JSX
     return (
@@ -107,12 +116,17 @@ export default class AddItem extends PureComponent {
 
           <Text style={addItemTitle}>{Strings.textCategory}</Text>
 
-		  <View style={{ borderRadius: 20 ,backgroundColor: Colors.YELLOW, marginBottom: 10}}>
-
-		  <Picker
+          <View
+            style={{
+              borderRadius: 20,
+              backgroundColor: Colors.YELLOW,
+              marginBottom: 10
+            }}
+          >
+            <Picker
               style={{ marginLeft: 10, height: 35, color: Colors.BLACK }}
               selectedValue={this.state.category}
-              onValueChange={category => this.setState({ category })}
+              onValueChange={updateCategory}
             >
               <Picker.Item
                 label={Strings.pickerItemOthers}
@@ -127,8 +141,7 @@ export default class AddItem extends PureComponent {
                 value={Strings.pickerItemVegetables}
               />
             </Picker>
-
-		  </View>
+          </View>
 
           <View style={addItemControlBar}>
             <TouchableOpacity
@@ -154,7 +167,7 @@ export default class AddItem extends PureComponent {
     );
   }
 
-  TextInputCircle(props) {
+  TextInputCircle(props: any): React$Element<any> {
     // Destrcuturing
     const { containerHorizontal } = Styles; // Generic styles
     const { addItemTextInput, addItemTextInputIcon } = style; // Specific styles
@@ -176,12 +189,12 @@ export default class AddItem extends PureComponent {
     );
   }
 
-  QuantityControl() {
+  QuantityControl(): React$Element<any> {
     // Destructuring assignment
-    const { moreQuantity, lessQuantity, updateUnit } = this;
-    const { quantity, unit } = this.state;
-    const { containerHorizontal } = Styles; // Generic styles
-    const { addItemControl, addItemQuantityControl } = style; // Especific styles
+    const { moreQuantity, lessQuantity, updateUnit }: any = this;
+    const { quantity, unit }: any = this.state;
+    const { containerHorizontal }: any = Styles; // Generic styles
+    const { addItemControl, addItemQuantityControl }: any = style; // Especific styles
 
     // Return JSX
     return (
@@ -230,9 +243,9 @@ export default class AddItem extends PureComponent {
     );
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     // Destructuring assignment
-    const { targetAnimation } = this.state;
+    const { targetAnimation }: any = this.state;
 
     // Animation with opcity
     Animated.timing(targetAnimation, {
@@ -242,25 +255,31 @@ export default class AddItem extends PureComponent {
     }).start();
   }
 
-  updateName(name) {
+  updateName(name: string): void {
     this.setState({ name });
   }
 
-  updatePrice(price) {
-    this.setState({ price });
+  updatePrice(price: string): void {
+    this.setState({ price: Number.parseFloat(price) });
   }
 
-  updateUnit(unit) {
-    if (unit === Strings.pickerItemUnit) {
-      unit = { unit, quantity: Math.trunc(this.state.quantity) };
-    } else {
-      unit = { unit };
+  // Picker onValueChange?: ?(itemValue: string | number, itemIndex: number) => mixed
+  updateUnit(unit: string | number): void {
+    if (typeof unit === "string") {
+      if (unit === Strings.pickerItemUnit) {
+        this.setState({ unit, quantity: Math.trunc(this.state.quantity) });
+      } else {
+        this.setState({ unit });
+      }
     }
-
-    this.setState(unit);
   }
 
-  moreQuantity() {
+  // Picker onValueChange?: ?(itemValue: string | number, itemIndex: number) => mixed
+  updateCategory(category: string | number): void {
+    if (typeof category === "string") this.setState({ category });
+  }
+
+  moreQuantity(): void {
     // Quantity++
     this.setState(previousState => {
       const more = previousState.unit === Strings.pickerItemUnit ? 1 : 0.25;
@@ -270,7 +289,7 @@ export default class AddItem extends PureComponent {
     });
   }
 
-  lessQuantity() {
+  lessQuantity(): void {
     // Quantity--
     this.setState(previousState => {
       const less = previousState.unit === Strings.pickerItemUnit ? 1 : 0.25;
@@ -281,7 +300,7 @@ export default class AddItem extends PureComponent {
     });
   }
 
-  primaryKey() {
+  primaryKey(): string {
     // Genarating ID
     return (
       Math.random()
@@ -290,10 +309,10 @@ export default class AddItem extends PureComponent {
     );
   }
 
-  saveItem() {
+  saveItem(): void {
     // Destructuring assignment
-    const { primaryKey } = this;
-    const { eventCloseAddItem } = this.props;
+    const { primaryKey }: any = this;
+    const { eventCloseAddItem }: any = this.props;
     const {
       name,
       price,
@@ -301,19 +320,17 @@ export default class AddItem extends PureComponent {
       unit,
       category,
       targetAnimation
-    } = this.state;
+    }: any = this.state;
 
     // Item to save
     const item = {
       id: primaryKey(),
       name,
-      price: Number.parseInt(price),
-      quantity: Number.parseInt(quantity),
+      price,
+      quantity,
       unit,
       category
-	};
-	
-	console.log(item);
+    };
 
     // Save item in database
     createItem(item)
@@ -334,10 +351,10 @@ export default class AddItem extends PureComponent {
       });
   }
 
-  cancelItem() {
+  cancelItem(): void {
     // Destructuring assignment
-    const { eventCloseAddItem } = this.props;
-    const { targetAnimation } = this.state;
+    const { eventCloseAddItem }: any = this.props;
+    const { targetAnimation }: any = this.state;
 
     Animated.timing(targetAnimation, {
       toValue: 0,
@@ -354,10 +371,10 @@ export default class AddItem extends PureComponent {
  *
  * @param {Object} props
  */
-export function AddItemButton(props) {
+export function AddItemButton(props: any): React$Element<any> {
   // Destructuring assignment
-  const { eventShowAddItem } = props;
-  const { addItemButton, addItemButtonImage } = style;
+  const { eventShowAddItem }: any = props;
+  const { addItemButton, addItemButtonImage }: any = style;
 
   // View
   return (
@@ -370,7 +387,7 @@ export function AddItemButton(props) {
   );
 }
 
-const style = StyleSheet.create({
+const style: any = StyleSheet.create({
   // AddItem
   addItem: {
     position: "absolute",
@@ -446,7 +463,7 @@ const style = StyleSheet.create({
   addItemButton: {
     position: "absolute",
     bottom: 16,
-    right: 16,
+    right: 16
   },
   addItemButtonImage: {
     width: 56, // Default size 56dp (floating action button - docmentation Material Design Google)
