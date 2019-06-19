@@ -5,8 +5,8 @@
  * @flow
  */
 import React, { PureComponent } from "react";
-import type { AddItem as Props } from './Properties';
-import type { AddItem as State } from './States';
+import type { AddItem as Props } from '../Properties';
+import type { AddItem as State } from '../States';
 import {
   TouchableOpacity,
   StyleSheet,
@@ -19,10 +19,10 @@ import {
   View,
   Text
 } from "react-native";
-import { createItem } from "../database/item";
-import Strings from "../resources/Strings";
-import Styles from "../resources/Styles";
-import Colors from "../resources/Colors";
+import { createItem } from "../../database/item";
+import Strings from "../../resources/Strings";
+import Styles from "../../resources/Styles";
+import Colors from "../../resources/Colors";
 
 /**
  * Stateless Component
@@ -179,8 +179,8 @@ export default class AddItem extends PureComponent<Props, State> {
           style={addItemTextInputIcon}
           source={
             props.placeholder === Strings.textInputName
-              ? require("../resources/images/textinput_name.png")
-              : require("../resources/images/textinput_price.png")
+              ? require("../../resources/images/textinput_name.png")
+              : require("../../resources/images/textinput_price.png")
           }
         />
 
@@ -386,7 +386,7 @@ export function AddItemButton(props: any): React$Element<any> {
     <TouchableOpacity style={addItemButton} onPress={eventShowAddItem}>
       <Image
         style={addItemButtonImage}
-        source={require("../resources/images/additem.png")}
+        source={require("../../resources/images/additem.png")}
       />
     </TouchableOpacity>
   );

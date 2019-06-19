@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import { StatusBar, StyleSheet, Image, View, Text } from 'react-native';
-import Colors from '../resources/Colors';
+import Colors from '../../resources/Colors';
 
 /**
  * Stateless Component
@@ -65,7 +65,7 @@ function ActionSearch(): React$Element<any> {
 
     // View JSX
     return (
-        <Image style={actionSearch} source={require('../resources/images/action_search.png')} />
+        <Image style={actionSearch} source={require('../../resources/images/action_search.png')} />
     );
 }
 

@@ -5,8 +5,8 @@
  * @flow
  */
 import React from 'react';
-import Main from './app/components/Main';
+import Application from './src/app/components';
 
 export default function App(): React$Element<any> {
-  return <Main />
+  return <Application />
 }
