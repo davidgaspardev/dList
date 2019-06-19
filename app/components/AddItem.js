@@ -32,7 +32,6 @@ import Colors from "../resources/Colors";
  * @returns {Object}
  */
 export default class AddItem extends PureComponent<Props, State> {
-  props = {};
 
   constructor(props: Props): void {
     super(props);
@@ -43,7 +42,7 @@ export default class AddItem extends PureComponent<Props, State> {
       targetAnimation: new Animated.Value(0),
       // Item properties
       name: String(),
-      price: Number(),
+      price: String(),
       quantity: Number(1),
       unit: Strings.pickerItemUnit,
       category: Strings.pickerItemOthers
@@ -57,6 +56,7 @@ export default class AddItem extends PureComponent<Props, State> {
     (this: any).moreQuantity = this.moreQuantity.bind(this);
     (this: any).lessQuantity = this.lessQuantity.bind(this);
     (this: any).updateUnit = this.updateUnit.bind(this);
+    (this: any).updateCategory = this.updateCategory.bind(this);
     (this: any).saveItem = this.saveItem.bind(this);
     (this: any).cancelItem = this.cancelItem.bind(this);
   }
@@ -260,7 +260,12 @@ export default class AddItem extends PureComponent<Props, State> {
   }
 
   updatePrice(price: string): void {
-    this.setState({ price: Number.parseFloat(price) });
+    price = price.replace(".", "");
+    if(price.length > 2) {
+        price = [price.slice(0, price.length - 2), ".", price.slice(price.length - 2)].join("");
+    }
+    console.log(`price: ${price}`);
+    this.setState({ price });
   }
 
   // Picker onValueChange?: ?(itemValue: string | number, itemIndex: number) => mixed
@@ -326,7 +331,7 @@ export default class AddItem extends PureComponent<Props, State> {
     const item = {
       id: primaryKey(),
       name,
-      price,
+      price: Number.parseFloat(price),
       quantity,
       unit,
       category

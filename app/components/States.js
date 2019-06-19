@@ -19,7 +19,7 @@ export type AddItem = {
   showAnimation: boolean,
   targetAnimation: Object,
   name: string,
-  price: number,
+  price: string,
   quantity: number,
   unit: string,
   category: string
