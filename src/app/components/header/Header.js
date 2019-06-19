@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import { StatusBar, StyleSheet, Image, View, Text } from 'react-native';
-import Colors from '../resources/Colors';
+import Colors from '../../resources/Colors';
 
 /**
  * Stateless Component

@@ -8,9 +8,8 @@ import React, { Component } from 'react';
 import type { Main as Props, Item as ItemType } from './Properties';
 import type { Main as State } from './States';
 import { StyleSheet, FlatList, View } from 'react-native';
-import Header from './Header';
-import Item from './Item';
-import AddItem, { AddItemButton } from './AddItem';
+import { Header } from './header';
+import { AddItem, AddItemButton, Item } from './item';
 import { getAllItems } from '../database/item';
 
 /**
@@ -52,10 +51,6 @@ export default class Main extends Component<Props, State> {
     keyExtractor(item: ItemType): string {
         return item.id;
     }
-
-    //renderSectionHeader({section: {title}}) {
-        
-    //}
 
     renderItem(info: { item: ItemType }): React$Element<any> {
         return <Item { ...info.item } />

@@ -5,8 +5,8 @@
  * @flow
  */
 import React from 'react';
-import Main from './app/components/Main';
+import dList from './src/app/components';
 
 export default function App() {
-  return <Main />
+  return <dList />
 }

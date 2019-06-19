@@ -5,10 +5,10 @@
  * @flow
  */
 import React, { PureComponent } from 'react';
-import type { Item as Props } from './Properties';
-import type { Item as State } from './States';
+import type { Item as Props } from '../Properties';
+import type { Item as State } from '../States';
 import { TouchableOpacity, StyleSheet, Dimensions, StatusBar, Animated, TextInput, Image, Picker, View, Text } from 'react-native';
-import Colors from '../resources/Colors';
+import Colors from '../../resources/Colors';
 
 /**
  * Stateless Component
