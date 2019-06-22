@@ -34,7 +34,8 @@ const Strings = Object.freeze({
   pickerItemVegetables: isPortugueseLenguage ? "vegetais" : "vegetables",
   pickerItemFruits: isPortugueseLenguage ? "frutas" : "fruits",
   textCancel: isPortugueseLenguage ? "Cancelar" : "Cancel",
-  textSave: isPortugueseLenguage ? "Salvar" : "Save"
+  textSave: isPortugueseLenguage ? "Salvar" : "Save",
+  toastMsg: isPortugueseLenguage ? "Nome está vazio" : "Name is empty"
 });
 
 export default Strings;

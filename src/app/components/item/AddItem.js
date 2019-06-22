@@ -5,10 +5,11 @@
  * @flow
  */
 import React, { PureComponent } from "react";
-import type { AddItem as Props } from '../Properties';
-import type { AddItem as State } from '../States';
+import type { AddItem as Props } from "../Properties";
+import type { AddItem as State } from "../States";
 import {
   TouchableOpacity,
+  ToastAndroid,
   StyleSheet,
   Dimensions,
   StatusBar,
@@ -32,7 +33,6 @@ import Colors from "../../resources/Colors";
  * @returns {Object}
  */
 export default class AddItem extends PureComponent<Props, State> {
-
   constructor(props: Props): void {
     super(props);
 
@@ -261,8 +261,12 @@ export default class AddItem extends PureComponent<Props, State> {
 
   updatePrice(price: string): void {
     price = price.replace(".", "");
-    if(price.length > 2) {
-        price = [price.slice(0, price.length - 2), ".", price.slice(price.length - 2)].join("");
+    if (price.length > 2) {
+      price = [
+        price.slice(0, price.length - 2),
+        ".",
+        price.slice(price.length - 2)
+      ].join("");
     }
     console.log(`price: ${price}`);
     this.setState({ price });
@@ -327,33 +331,37 @@ export default class AddItem extends PureComponent<Props, State> {
       targetAnimation
     }: any = this.state;
 
-    // Item to save
-    const item = {
-      id: primaryKey(),
-      name,
-      price: Number.parseFloat(price),
-      quantity,
-      unit,
-      category
-    };
+    if (name !== "") {
+      // Item to save
+      const item = {
+        id: primaryKey(),
+        name,
+        price: price === "" ? null : Number.parseFloat(price),
+        quantity,
+        unit,
+        category
+      };
 
-    // Save item in database
-    createItem(item)
-      .then(() => {
-        // Item saved
-        Animated.timing(targetAnimation, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: true
-        }).start(() => {
+      // Save item in database
+      createItem(item)
+        .then(() => {
+          // Item saved
+          Animated.timing(targetAnimation, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+          }).start(() => {
+            eventCloseAddItem();
+          });
+        })
+        .catch(error => {
+          // Item don't saved
+          console.log(error);
           eventCloseAddItem();
         });
-      })
-      .catch(error => {
-        // Item don't saved
-        console.log(error);
-        eventCloseAddItem();
-      });
+    } else {
+      ToastAndroid.show(Strings.toastMsg, ToastAndroid.SHORT);
+    }
   }
 
   cancelItem(): void {
