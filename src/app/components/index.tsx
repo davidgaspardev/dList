@@ -4,11 +4,13 @@
  * @author David Gaspar
  */
 import React, { Component } from 'react';
+import { Main as Props} from './Props';
+import { Main as State } from './State';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default class Main extends Component {
+export default class Main extends Component<Props,State> {
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         // Destructuring addignment
         const { container }: any = style;
 

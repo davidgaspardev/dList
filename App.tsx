@@ -1,6 +1,6 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * React Native App
+ * https://github.com/davidgaspardev/dlist
  * 
  * Generated with the TypeScript template
  * https://github.com/emin93/react-native-template-typescript
