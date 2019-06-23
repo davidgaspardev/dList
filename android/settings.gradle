@@ -1,3 +1,8 @@
 rootProject.name = 'dList'
 
+// INCLUDES
 include ':app'
+include ':realm'
+
+// GET MODULE FROM NODE
+project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
