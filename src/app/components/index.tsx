@@ -10,6 +10,20 @@ import { StyleSheet, View, Text } from 'react-native';
 
 export default class Main extends Component<Props,State> {
 
+    /**
+     * Main
+     * 
+     * @param {Props} props 
+     */
+    constructor(props: Props) {
+        super(props);
+    }
+
+    /**
+     * Render
+     * 
+     * @returns {JSX.Element}
+     */
     public render(): JSX.Element {
         // Destructuring addignment
         const { container }: any = style;
