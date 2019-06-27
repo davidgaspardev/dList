@@ -1,7 +1,8 @@
 import RealmIO from './realm.io';
+import Item from './item';
 import { Results } from 'realm';
 import { Iitem, Icrud } from './interfaces';
-import Item from './item';
+import { Strings } from '../../res/Strings';
 
 export default class DataBase extends RealmIO implements Icrud {
 
@@ -82,7 +83,7 @@ export default class DataBase extends RealmIO implements Icrud {
             });
 
         }else {
-            if(typeof callback !== 'undefined') callback('Data already is there');
+            if(typeof callback !== 'undefined') callback(Strings.toastAlert);
         }
     }
     
