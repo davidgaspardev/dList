@@ -5,13 +5,14 @@
             "name": "Item",
             "primaryKey": "id",
             "properties": {
-                "id":       { "type": "string" },
-                "name":     { "type": "string" },
-                "price":    { "type": "float", "optional": true },
-                "quantity": { "type": "float"  },
-                "unit":     { "type": "string" },
-                "category": { "type": "string" },
-                "date":     { "type": "date"   }
+                "id":           { "type": "string" },
+                "name":         { "type": "string" },
+                "price":        { "type": "float", "optional": true },
+                "quantity":     { "type": "int"    },
+                "unitQuantity": { "type": "float"  },
+                "unit":         { "type": "string" },
+                "category":     { "type": "string" },
+                "date":         { "type": "date"   }
             }
         }
     ]
