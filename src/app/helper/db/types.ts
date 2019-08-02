@@ -3,6 +3,8 @@
  * CRUD: Create, Read, Update and Delete methods
  * Item: properties
  * 
+ * @instance
+ * @exports
  * @author David Gaspar
  */
 export interface Iitem {
@@ -12,6 +14,7 @@ export interface Iitem {
     name: string;
     price: number | null;
     quantity: number;
+    unitQuantity: number;
     unit: string;
     category: string;
     date: Date;

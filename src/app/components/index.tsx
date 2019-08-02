@@ -5,10 +5,15 @@
  */
 import React, { Component } from 'react';
 import Header from './Header';
+import { ToastAndroid, StyleSheet, View, Text } from 'react-native';
+import ItemIO from '../helper/db';
+
+/**
+ * @interface
+ */
 import { Main as Props} from './Props';
 import { Main as State } from './State';
-import { StyleSheet, View, Text } from 'react-native';
-//import ItemIO from '../helper/db';
+import { Iitem } from '../helper/db/types';
 
 /**
  * Stateful Component
@@ -26,13 +31,12 @@ export default class Main extends Component<Props,State> {
     constructor(props: Props) {
         super(props);
 
-        //let db = new ItemIO('Item');
-
     }
 
     /**
      * Render
      * 
+     * @override
      * @returns {JSX.Element}
      */
     public render(): JSX.Element {

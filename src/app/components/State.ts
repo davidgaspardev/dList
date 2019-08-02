@@ -4,7 +4,8 @@
  * @author David Gaspar
  * @interface
  */
+import { Iitem } from "../helper/db/types";
 
 export interface Main {
-    list: Array<Object> // Items list
+    list: Array<Iitem> // Items list
 }
